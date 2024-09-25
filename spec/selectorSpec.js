@@ -1,27 +1,27 @@
 describe("selectorTypeMatcher", function () {
-  xit("debe retornar el tipo 'id' para un selector de id", function () {
+  it("debe retornar el tipo 'id' para un selector de id", function () {
     var type = selectorTypeMatcher("#pagetitle");
     expect(type).toEqual("id");
   });
 
-  xit("debe retornar el tipo 'class' para un selector de clase", function () {
+  it("debe retornar el tipo 'class' para un selector de clase", function () {
     var type = selectorTypeMatcher(".image");
     expect(type).toEqual("class");
   });
 
-  xit("debe retornar el tipo 'tag.class' para un selector de tag.class", function () {
+  it("debe retornar el tipo 'tag.class' para un selector de tag.class", function () {
     var type = selectorTypeMatcher("img.thumbnail");
     expect(type).toEqual("tag.class");
   });
 
-  xit("debe retornar el tipo 'tag' para un selector de tag", function () {
+  it("debe retornar el tipo 'tag' para un selector de tag", function () {
     var type = selectorTypeMatcher("div");
     expect(type).toEqual("tag");
   });
 });
 
 describe("matchFunctionMaker", function () {
-  xit("cuando el selector sea un ID, debe retornar una Función que devuelva TRUE si el elemento coincide con el ID", function () {
+  it("cuando el selector sea un ID, debe retornar una Función que devuelva TRUE si el elemento coincide con el ID", function () {
     var selector = "#price";
     var matcher = matchFunctionMaker(selector);
     var sampleDivElement = document.createElement("DIV"); // creamos un elemento en memoria
@@ -29,7 +29,7 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleDivElement)).toEqual(true);
   });
 
-  xit("cuando el selector sea un ID, debe retornar una Función que devuelva FALSE si el elemento no coincide con el ID", function () {
+  it("cuando el selector sea un ID, debe retornar una Función que devuelva FALSE si el elemento no coincide con el ID", function () {
     var selector = "#price";
     var matcher = matchFunctionMaker(selector);
     var sampleDivElement = document.createElement("DIV"); // creamos un elemento en memoria
@@ -37,7 +37,7 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleDivElement)).toEqual(false);
   });
 
-  xit("cuando el selector sea un CLASS, debe retornar una Función que devuelva TRUE si el elemento coincide con la propiedad `className`", function () {
+  it("cuando el selector sea un CLASS, debe retornar una Función que devuelva TRUE si el elemento coincide con la propiedad `className`", function () {
     var selector = ".heading";
     var matcher = matchFunctionMaker(selector);
     var sampleDivEl = document.createElement("DIV");
@@ -45,7 +45,7 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleDivEl)).toEqual(true);
   });
 
-  xit("cuando el selector sea un CLASS, debe retornar una Función que devuelva TRUE si el elemento coicide con la propiedad `className`. No influye si hay múltiples clases en ese elemento", function () {
+  it("cuando el selector sea un CLASS, debe retornar una Función que devuelva TRUE si el elemento coicide con la propiedad `className`. No influye si hay múltiples clases en ese elemento", function () {
     var selector = ".heading";
     var matcher = matchFunctionMaker(selector);
     var sampleEl = document.createElement("H1");
@@ -53,7 +53,7 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleEl)).toEqual(true);
   });
 
-  xit("cuando el selector sea un CLASS, debe retornar una Función que devuelva FALSE si el elemento no coincide con la propiedad `className`", function () {
+  it("cuando el selector sea un CLASS, debe retornar una Función que devuelva FALSE si el elemento no coincide con la propiedad `className`", function () {
     var selector = ".photo";
     var matcher = matchFunctionMaker(selector);
     var sampleEl = document.createElement("H1");
@@ -61,14 +61,14 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleEl)).toEqual(false);
   });
 
-  xit("cuando el selector sea un TAG, debe devolver una Función que devuelva TRUE cuando el elemento coincida con el `tagName`", function () {
+  it("cuando el selector sea un TAG, debe devolver una Función que devuelva TRUE cuando el elemento coincida con el `tagName`", function () {
     var selector = "div";
     var matcher = matchFunctionMaker(selector);
     var sampleDivEl = document.createElement("div");
     expect(matcher(sampleDivEl)).toEqual(true);
   });
 
-  xit("cuando el selector sea un TAG.CLASS, debe devolver una Función que devuelva TRUE cuando el elemento coincida con el `tagName` y el `className`", function () {
+  it("cuando el selector sea un TAG.CLASS, debe devolver una Función que devuelva TRUE cuando el elemento coincida con el `tagName` y el `className`", function () {
     var selector = "img.thumbnail";
     var matcher = matchFunctionMaker(selector);
     var sampleDivEl = document.createElement("img");
@@ -76,7 +76,7 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleDivEl)).toEqual(true);
   });
 
-  xit("cuando el selector sea un TAG.CLASS, debe devolver una Función que devuelva FALSE si el elemento no coincide con el `tagName`", function () {
+  it("cuando el selector sea un TAG.CLASS, debe devolver una Función que devuelva FALSE si el elemento no coincide con el `tagName`", function () {
     var selector = "img.photo";
     var matcher = matchFunctionMaker(selector);
     var sampleEl = document.createElement("div");
@@ -84,7 +84,7 @@ describe("matchFunctionMaker", function () {
     expect(matcher(sampleEl)).toEqual(false);
   });
 
-  xit("cuando el selector sea un TAG.CLASS, debe devolver una Función que devuelva FALSE si el elemento no coincide con el `className`", function () {
+  it("cuando el selector sea un TAG.CLASS, debe devolver una Función que devuelva FALSE si el elemento no coincide con el `className`", function () {
     var selector = "img.photo";
     var matcher = matchFunctionMaker(selector);
     var sampleEl = document.createElement("img");
@@ -96,37 +96,37 @@ describe("matchFunctionMaker", function () {
 describe("funcion querySelector ", function () {
   var elements;
 
-  xit("debe seleccionar un elemento por tag name (el root en este caso)", function () {
+  it("debe seleccionar un elemento por tag name (el root en este caso)", function () {
     elements = querySelector("body");
     expect(elements[0].tagName.toLowerCase()).toEqual("body");
   });
 
-  xit("debe seleccionar un id", function () {
+  it("debe seleccionar un id", function () {
     elements = querySelector("#pagetitle");
     expect(elements.length).toEqual(1);
   });
 
-  xit("debe seleccionar el elemento correcto por id", function () {
+  it("debe seleccionar el elemento correcto por id", function () {
     elements = querySelector("#pagetitle");
     expect(elements[0].innerHTML).toEqual("My Photos");
   });
 
-  xit("debe seleccionar tag names", function () {
+  it("debe seleccionar tag names", function () {
     elements = querySelector("h2");
     expect(elements.length).toEqual(3);
   });
 
-  xit("debe seleccionar por clase", function () {
+  it("debe seleccionar por clase", function () {
     elements = querySelector(".photo");
     expect(elements.length).toEqual(4);
   });
 
-  xit("debe seleccionar por clase incluyendo elementos con múltiples clases", function () {
+  it("debe seleccionar por clase incluyendo elementos con múltiples clases", function () {
     elements = querySelector(".lead");
     expect(elements.length).toEqual(3);
   });
 
-  xit("debe seleccionar por `tagName` y `className`", function () {
+  it("debe seleccionar por `tagName` y `className`", function () {
     elements = querySelector("h2.small");
     expect(elements.length).toEqual(2);
   });

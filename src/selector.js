@@ -11,9 +11,25 @@ const traverseDomAndCollectElements = function (
   startElement = document.body
 ) {
   let resultSet = [];
-
-  // Usá `matcher` para identificar el nodo correcto
-  // Escribí tu código acá
+  if (matcher(startElement)) {
+    resultSet.push(startElement);
+    return resultSet;
+  }
+  const childrens = Object.values(startElement.children);
+  //console.log(childrens);
+  childrens.forEach((children) => {
+    const sons = Object.values(children.children);
+    if (sons.length) {
+      sons.forEach((son) => {
+        if (matcher(son)) {
+          resultSet.push(son);
+        }
+      });
+    }
+    if (matcher(children)) {
+      resultSet.push(children);
+    }
+  });
 
   return resultSet;
 };
@@ -24,7 +40,17 @@ const traverseDomAndCollectElements = function (
  * @returns {string}: Devuelve uno de estos tipos: id, class, tag.class, tag
  */
 const selectorTypeMatcher = function (selector) {
-  // Escribí tu código acá
+  if (selector[0] === "#") {
+    return "id";
+  }
+  if (selector[0] === ".") {
+    return "class";
+  }
+  if (selector.split(".").length == 2) {
+    return "tag.class";
+  }
+
+  return "tag";
 };
 
 /**
@@ -35,14 +61,36 @@ const selectorTypeMatcher = function (selector) {
 const matchFunctionMaker = function (selector) {
   const selectorType = selectorTypeMatcher(selector);
   let matcher;
+
   if (selectorType === "id") {
-    // define matcher para id
+    let idSelector = [...selector];
+    idSelector.shift();
+    const selectorName = idSelector.join("");
+    matcher = function (element) {
+      if (element.id === selectorName) return true;
+      return false;
+    };
   } else if (selectorType === "class") {
-    // define matcher para class
+    let classSelector = [...selector];
+    classSelector.shift();
+    const selectorName = classSelector.join("");
+    matcher = (element) => {
+      let arrElements = element.className.split(" ");
+      let checkClassName = false;
+      if (arrElements.includes(selectorName)) checkClassName = true;
+      return checkClassName;
+    };
   } else if (selectorType === "tag.class") {
-    // define matcher para tag.class
+    const [tag, clase] = selector.split(".");
+    matcher = (element) => {
+      const arrClases = element.className.split(" ");
+      const elementTagName = element?.tagName?.toLowerCase();
+      return elementTagName === tag && arrClases.includes(clase);
+    };
   } else if (selectorType === "tag") {
-    // define matcher para tag
+    matcher = (element) => {
+      return selector === element?.tagName?.toLowerCase();
+    };
   }
   return matcher;
 };
